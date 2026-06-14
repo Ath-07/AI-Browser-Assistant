@@ -1,3 +1,4 @@
 Browser-AI/
 __pycache__/
 *.pyc
+.env
