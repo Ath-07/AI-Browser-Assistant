@@ -1,0 +1,13 @@
+{
+    "first_name": "Atharva",
+    "last_name": "Shetwe",
+    "email": "atharva@example.com",
+    "gender": "Male",
+    "mobile": "7276891106",
+    "dob": "14 Jun 2026",
+    "subjects": ["Maths", "Computer Science"],
+    "hobbies": ["Sports", "Reading"],
+    "address": "Mumbai, Maharashtra",
+    "state": "Maharashtra",
+    "city": "Mumbai"
+}
