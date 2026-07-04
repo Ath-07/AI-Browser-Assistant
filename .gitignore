@@ -6,3 +6,11 @@ profiles.db
 test_database.db
 .pytest_cache/
 pytest.ini
+
+# Node / frontend
+node_modules/
+dist/
+
+# OS files
+Thumbs.db
+.DS_Store
