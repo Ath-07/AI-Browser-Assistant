@@ -2,3 +2,7 @@ Browser-AI/
 __pycache__/
 *.pyc
 .env
+profiles.db
+test_database.db
+.pytest_cache/
+pytest.ini
