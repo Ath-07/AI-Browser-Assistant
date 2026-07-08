@@ -41,4 +41,16 @@ A progressive 6-assignment project that builds an AI-powered browser agent, evol
 
 ---
 
+## Capstone Project — Agntic Browser Assistant
+- A full-featured AI browser agent built as the capstone to the 6-assignment series, unifying every concept into one cohesive system
+- **Intelligent Agent Core:** Uses Gemini + LangChain to parse natural-language commands and autonomously control the browser (navigate, click, type, extract data)
+- **WebSocket-Driven Architecture:** Real-time log streaming from the backend to the React frontend, giving users full visibility into the agent's decision process
+- **Persistent User Profiles:** SQLite-backed CRUD for user data, enabling personalized multi-session interactions
+- **Local Intent Pre-Processor:** A regex-based fallback parser that resolves simple commands instantly without incurring LLM latency or cost
+- **Robust Error Handling:** Graceful degradation on timeouts, missing elements, ambiguous intents, and API failures
+- **Production-Grade Stack:** Python 3.11+ backend (FastAPI + asyncio + Playwright) paired with a React 18 + Vite + Tailwind CSS frontend
+- **Repository:** *[link to be added]*
+
+---
+
 **Author:** Atharva
