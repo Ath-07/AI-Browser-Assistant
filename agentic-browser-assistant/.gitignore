@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+data/
+.venv/
+credentials.json
+token.json
+gmail_token.json
