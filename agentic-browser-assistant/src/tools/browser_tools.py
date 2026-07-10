@@ -8,9 +8,11 @@ be wrapped as LangChain/LangGraph tools (e.g. via @tool decorators) in
 the calling code.
 """
 
+import asyncio
 import base64
 import logging
 import re
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -95,6 +97,9 @@ class BrowserTool:
         """Boot Playwright, launch the browser, and open a fresh page."""
         if self._page is not None:
             return  # already started
+
+        if sys.platform == "win32":
+            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
         self._playwright = await async_playwright().start()
         launcher = getattr(self._playwright, self._browser_type)

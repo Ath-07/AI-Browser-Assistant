@@ -1,3 +1,8 @@
+.states
+*.db
+.web
+assets/external/
+*.py[cod]
 __pycache__/
 *.pyc
 .env
@@ -6,3 +11,5 @@ data/
 credentials.json
 token.json
 gmail_token.json
+CLAUDE.md
+AGENTS.md

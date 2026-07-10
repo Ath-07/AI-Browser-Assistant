@@ -319,29 +319,36 @@ class Orchestrator:
                 )
                 continue
 
-            # ---- Pending-approval tools are *not* executed yet ----
+            # ---- Pending-approval tools require human approval ----
             if name in PENDING_APPROVAL_TOOL_NAMES:
-                pending_approval = True
-                tool_messages.append(
-                    ToolMessage(
-                        content=(
-                            f"Action '{name}' with args {args} is pending "
-                            "user approval and has not been executed."
-                        ),
-                        tool_call_id=call_id,
-                        name=name,
+                ctx = state.get("context", {}) or {}
+                if ctx.get("approved_action") and self._is_approved_call(
+                    call, ctx.get("pending_calls", [])
+                ):
+                    # User already approved — execute below.
+                    pass
+                else:
+                    pending_approval = True
+                    tool_messages.append(
+                        ToolMessage(
+                            content=(
+                                f"Action '{name}' with args {args} is pending "
+                                "user approval and has not been executed."
+                            ),
+                            tool_call_id=call_id,
+                            name=name,
+                        )
                     )
-                )
-                # Record the intention so the caller can inspect/approve it.
-                chain.append(
-                    {
-                        "tool": name,
-                        "args": args,
-                        "result": "(pending approval)",
-                        "status": "pending",
-                    }
-                )
-                continue
+                    # Record the intention so the caller can inspect/approve it.
+                    chain.append(
+                        {
+                            "tool": name,
+                            "args": args,
+                            "result": "(pending approval)",
+                            "status": "pending",
+                        }
+                    )
+                    continue
 
             # ---- Execute the tool ----
             try:
@@ -425,6 +432,15 @@ class Orchestrator:
     # ------------------------------------------------------------------ #
     # Context helpers
     # ------------------------------------------------------------------ #
+
+    @staticmethod
+    def _is_approved_call(call: dict, pending_calls: list[dict]) -> bool:
+        """Return True when *call* matches a previously-approved pending call."""
+        name = call["name"]
+        for pc in pending_calls:
+            if pc["name"] == name:
+                return True
+        return False
 
     @staticmethod
     def _format_context_note(state: State) -> str:

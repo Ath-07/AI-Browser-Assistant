@@ -261,6 +261,9 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    if sys.platform == "win32":
+        asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
     args = parse_args()
     thread_id = args.thread_id or str(uuid.uuid4())
 

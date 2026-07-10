@@ -49,7 +49,6 @@ A progressive 6-assignment project that builds an AI-powered browser agent, evol
 - **Local Intent Pre-Processor:** A regex-based fallback parser that resolves simple commands instantly without incurring LLM latency or cost
 - **Robust Error Handling:** Graceful degradation on timeouts, missing elements, ambiguous intents, and API failures
 - **Production-Grade Stack:** Python 3.11+ backend (FastAPI + asyncio + Playwright) paired with a React 18 + Vite + Tailwind CSS frontend
-- **Repository:** *[link to be added]*
 
 ---
 

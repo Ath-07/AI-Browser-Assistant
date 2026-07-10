@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agentic Browser Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked@15.0.3/marked.min.js"></script>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar__inner">
+        <div class="sidebar__header">
+          <div class="sidebar__brand">
+            <div class="sidebar__brand-icon">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 3h6v6l4-4 4 4-4 4v6H9v-6l-4 4-4-4 4-4V3z" />
+              </svg>
+            </div>
+            <div class="sidebar__brand-text">
+              <span class="sidebar__brand-title">Agentic Browser</span>
+              <span class="sidebar__brand-subtitle">Assistant</span>
+            </div>
+          </div>
+          <button id="sidebar-close" class="sidebar__close-btn" aria-label="Close sidebar">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+
+        <div id="settings-section" class="sidebar__section">
+          <button id="settings-toggle" class="sidebar__btn sidebar__btn--settings">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+            </svg>
+            <span>Settings</span>
+          </button>
+        </div>
+
+        <div id="settings-panel" class="settings-panel hidden">
+          <div class="settings-panel__header">
+            <svg class="icon settings-panel__header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+            </svg>
+            <span class="settings-panel__title">Settings</span>
+            <button id="settings-close" class="sidebar__close-btn" aria-label="Close settings">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+          <div class="settings-panel__body">
+            <label class="settings-panel__label">API Key</label>
+            <p class="settings-panel__desc">Enter your Gemini API key to enable the assistant.</p>
+            <input id="api-key-input" type="password" class="settings-panel__input" placeholder="e.g. AIzaSy..." />
+            <button id="save-api-key" class="btn btn--primary settings-panel__save">Save</button>
+          </div>
+        </div>
+
+        <div class="sidebar__history">
+          <div class="sidebar__history-header">
+            <svg class="icon sidebar__history-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+            </svg>
+            <span class="sidebar__history-title">History</span>
+            <span id="history-count" class="sidebar__history-count"></span>
+          </div>
+          <div id="history-list" class="sidebar__history-list">
+            <div class="sidebar__history-empty">
+              <svg class="icon sidebar__history-empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+              </svg>
+              <span>No past sessions yet.</span>
+              <span class="sidebar__history-empty-sub">Your conversation history will appear here.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar__footer">
+          <button id="clear-chat" class="sidebar__btn sidebar__btn--clear">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+            </svg>
+            <span>Clear conversation</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <main id="main-content" class="main-content">
+      <div class="mobile-header">
+        <button id="sidebar-toggle" class="mobile-header__menu-btn" aria-label="Toggle sidebar">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div class="mobile-header__brand">
+          <svg class="icon mobile-header__brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3h6v6l4-4 4 4-4 4v6H9v-6l-4 4-4-4 4-4V3z" />
+          </svg>
+          <span class="mobile-header__brand-text">Agentic Browser Assistant</span>
+        </div>
+        <div class="mobile-header__spacer"></div>
+      </div>
+
+      <div id="chat-messages" class="chat__messages"></div>
+
+      <div id="error-bar" class="error-bar hidden">
+        <span id="error-text"></span>
+      </div>
+
+      <div class="chat__input-bar">
+        <form id="chat-form" class="chat__form">
+          <input id="chat-input" type="text" class="chat__input" placeholder="Ask me to do something..." autofocus />
+          <button id="send-btn" type="submit" class="btn btn--primary chat__send-btn">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <div id="approval-modal" class="modal-overlay hidden">
+    <div class="modal-dialog">
+      <div class="modal-dialog__body">
+        <div class="modal-dialog__icon-wrap">
+          <svg class="modal-dialog__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+        </div>
+        <h2 class="modal-dialog__title">Action Required</h2>
+        <p class="modal-dialog__desc">The agent wants to perform an action that requires your approval before proceeding.</p>
+        <div id="pending-calls" class="modal-dialog__calls"></div>
+        <div class="modal-dialog__actions">
+          <button id="reject-btn" class="btn btn--outline modal-dialog__reject">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+            <span>Reject</span>
+          </button>
+          <button id="confirm-btn" class="btn btn--confirm modal-dialog__confirm">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span>Confirm</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
